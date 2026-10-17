@@ -11,6 +11,6 @@ export default async function handler(req, res) {
   }
 
   res.setHeader('Set-Cookie',
-    `${COOKIE}=${sessionToken()}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=21600`);
+    `${COOKIE}=${sessionToken()}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=60`);
   return res.redirect(303, '/vault');
 }
