@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "public",
+  "functions": {
+    "api/vault.js": { "includeFiles": "private/**" }
+  },
+  "rewrites": [
+    { "source": "/vault", "destination": "/api/vault" }
+  ]
+}

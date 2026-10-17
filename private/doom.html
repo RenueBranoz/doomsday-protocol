@@ -10,12 +10,11 @@
 
    YOU ARE HERE, AVENGER.
 
-   But Doom is no fool. The transmission is sealed now.
-   It answers only to the one who speaks the key:
+   You spoke the key at the gate. Speak it again to the raw feed:
 
-        curl -H "X-Doom-Key: <KEY>" <this-site>/api/transmission
+        curl -H "X-Doom-Key: <PIN>" <this-site>/api/transmission
 
-   The key was left where I once stood. Find it.
+   What comes back is encoded. An Avenger knows what to do with it.
 
                                                        - DOOM
  ================================================================
@@ -249,8 +248,8 @@
 <body>
 
 <picture>
-  <source media="(max-width: 700px)" srcset="assets/latveria_sigil.jpg">
-  <img class="bg" src="assets/latveria_throne.jpg" alt="" aria-hidden="true">
+  <source media="(max-width: 700px)" srcset="/assets/latveria_sigil.jpg">
+  <img class="bg" src="/assets/latveria_throne.jpg" alt="" aria-hidden="true">
 </picture>
 <div class="fog f1"></div><div class="fog f2"></div>
 <div class="shade"></div>
@@ -406,10 +405,10 @@
 
   /* for the ones who open the console */
   console.log('%cDOOM SEES YOU.', 'font:900 28px Cinzel,serif;color:#7fe04a;text-shadow:0 0 10px #7fe04a');
-  console.log('%cThe browser shows you only the mask, Avenger.\nThe raw signal shows you everything.', 'font:13px monospace;color:#b9c6c0');
+  console.log('%cThe browser shows you only the mask, Avenger.\nThe raw signal shows you everything:\n  curl -H "X-Doom-Key: <PIN>" ' + location.origin + '/api/transmission', 'font:13px monospace;color:#b9c6c0');
 })();
 </script>
-<audio id="theme" src="assets/doomsday_theme.mp3" preload="auto" loop></audio>
+<audio id="theme" src="/assets/doomsday_theme.mp3" preload="auto" loop></audio>
 <script>
 /* Doomsday theme: opening hit + score. Plays on arrival where the browser allows it,
    otherwise on the visitor's first click / tap / key press. */

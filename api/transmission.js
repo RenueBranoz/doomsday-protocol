@@ -1,9 +1,6 @@
-// Sealed transmission: returns the flag only to a request carrying the right key.
+// Raw feed: returns the base64-encoded transmission only to a request carrying the right key.
 // DOOM_KEY and FLAG live in Vercel environment variables, never in the repo.
-import { createHash, timingSafeEqual } from 'node:crypto';
-
-const digest = s => createHash('sha256').update(String(s).trim().toUpperCase()).digest();
-const sleep = ms => new Promise(r => setTimeout(r, ms));
+import { keyMatches, sleep } from './_doom.js';
 
 const SEALED = `
  ================================================================
@@ -12,7 +9,7 @@ const SEALED = `
    TRANSMISSION SEALED.
    Doom speaks only to the one who holds the key.
 
-     curl -H "X-Doom-Key: <KEY>" <this-site>/api/transmission
+     curl -H "X-Doom-Key: <PIN>" <this-site>/api/transmission
  ================================================================
 `;
 
@@ -23,16 +20,19 @@ const DENIED = `
  ================================================================
 `;
 
-const granted = flag => `
+const granted = flag => {
+  const payload = Buffer.from(`CONGRATS Worrier here.....   ${flag}\n`).toString('base64');
+  return `
  ================================================================
-   KEY ACCEPTED. TRANSMISSION UNSEALED.
+   KEY ACCEPTED. RAW TRANSMISSION FOLLOWS.
  ================================================================
 
-   CONGRATS Worrier here.....   ${flag}
+        ${payload}
 
                                                        - DOOM
  ================================================================
 `;
+};
 
 export default async function handler(req, res) {
   res.setHeader('Content-Type', 'text/plain; charset=utf-8');
@@ -44,7 +44,7 @@ export default async function handler(req, res) {
   const given = req.headers['x-doom-key'];
   if (!given) return res.status(401).send(SEALED);
 
-  if (!timingSafeEqual(digest(given), digest(DOOM_KEY))) {
+  if (!keyMatches(given)) {
     await sleep(1500); // slow down guessing
     return res.status(403).send(DENIED);
   }
